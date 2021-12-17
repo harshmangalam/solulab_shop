@@ -9,7 +9,10 @@ const categorySchema = new Schema(
       required: true,
       lowercase: true,
     },
-    qtyPerUnit: Number,
+    qtyPerUnit: {
+      type: String,
+      trim: true,
+    },
     unitPrice: Number,
     unitInStock: Number,
     discontinued: {

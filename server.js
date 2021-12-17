@@ -1,7 +1,7 @@
 const express = require("express");
 const pino = require("pino-http")();
 const cors = require("cors");
-
+const mongoose = require("mongoose");
 // load environment variable
 require("dotenv").config();
 
@@ -68,6 +68,8 @@ app.use((err, _, res, __) => {
 
 async function main() {
   try {
+    await mongoose.connect("mongodb://127.0.0.1:27017/solulab_shop");
+    console.log("connected to mongodb database");
     app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
   } catch (error) {
     console.log(error);
