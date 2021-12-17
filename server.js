@@ -16,6 +16,7 @@ const { API_ENDPOINT_NOT_FOUND_ERR, SERVER_ERR } = require("./src/errors");
 
 // products route
 const productRoutes = require("./src/routes/product.route");
+const categoryRoutes = require("./src/routes/category.route");
 
 // middlewares
 
@@ -40,7 +41,7 @@ app.get("/", (req, res) => {
   });
 });
 
-// app.use("/api/categories", categoryRoutes);
+app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
 
 // page not found error handling  middleware
@@ -58,11 +59,10 @@ app.use((err, _, res, __) => {
   console.log(err);
   const status = err.status || 500;
   const message = err.message || SERVER_ERR;
-  const data = err.data || null;
+
   res.status(status).json({
     type: "error",
     message,
-    data,
   });
 });
 
