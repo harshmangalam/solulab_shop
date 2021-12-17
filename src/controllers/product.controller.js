@@ -2,7 +2,7 @@ const Product = require("../models/product.model");
 
 const getProducts = async (req, res, next) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().populate("category");
     res.status(200).json({
       msg: "Get all products",
       data: products,
@@ -14,7 +14,7 @@ const getProducts = async (req, res, next) => {
 
 const getProductById = async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate("category");
     res.status(200).json({
       msg: "Get product by id",
       data: product,
@@ -30,13 +30,13 @@ const createNewProduct = async (req, res, next) => {
       category: req.body.categoryId,
       name: req.body.name,
       qtyPerUnit: req.body.qtyPerUnit,
-      unitPrice: require.body.unitPrice,
+      unitPrice: req.body.unitPrice,
       unitInStock: req.body.unitInStock,
       discontinued: req.body.discontinued,
     };
     const newProduct = new Product(data);
 
-    const product = newProduct.save();
+    const product = await newProduct.save();
     return res.status(201).json({
       msg: "New Product created",
       data: product,
